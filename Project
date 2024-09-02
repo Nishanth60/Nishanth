@@ -1,0 +1,33 @@
+import java.sql.*;
+
+public class ODBCConnection {
+    public static void main(String[] args) {
+        try {
+            // Load the JDBC-ODBC bridge driver
+            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+
+            // Create a connection to the ODBC data source
+            String dataSourceName = "YourDSN"; // Replace with your ODBC DSN name
+            String url = "jdbc:odbc:" + dataSourceName;
+            Connection conn = DriverManager.getConnection(url);
+
+            // Do something with the connection (e.g., execute a query)
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM YourTable");
+
+            // Process the result set
+            while (rs.next()) {
+                // ...
+            }
+
+            // Close the connection
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            System.err.println("ODBC driver not found: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error connecting to database: " + e.getMessage());
+        }
+    }
+}
